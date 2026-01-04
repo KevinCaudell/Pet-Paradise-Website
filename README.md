@@ -52,6 +52,7 @@ designed in Adobe Photoshop.
 
 ## Project Structure
 
+```
 Pet-Paradise-Website/
 ├─ index.html
 ├─ aboutus.html
@@ -81,6 +82,7 @@ Pet-Paradise-Website/
 ├─ petprintpics/                   # Pet Prints product images
 ├─ pictures/                       # Fake customer pet images, site logo, favicon
 └─ LICENSE.txt
+```
 
 ---
 
