@@ -39,7 +39,7 @@ designed in Adobe Photoshop.
 
 ---
 
-## 🛠 Features
+## Features
 
 - Fully functional multi‑page HTML website  
 - Styled using external CSS  
