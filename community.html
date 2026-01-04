@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Community Page</title>
+    <link rel="icon" type="image/png" href="pictures/favicon.png">
+    <link rel="stylesheet" href="style.css">
+        
+</head>
+    <body>
+        <a href="#community-main-content" class="skip-link">Skip to main content</a>
+
+        <header>
+            <div class="logo">
+                <a href="index.html">
+                    <img src="pictures/logo.png" alt="Pet Paradise Logo" title="This is the Pet Paradise Logo">
+                </a>
+            </div>
+            <div class="title">Community</div>
+            <div class="right-btn">Pet<br>Paradise</div>
+        </header>
+
+        <div class="nav-container">
+            <nav class="nav">
+                <a href="index.html">Home</a>
+                <a href="aboutus.html">About Us</a>
+                <a href="accessories.html">Accessories</a>
+                <a href="foryourpet.html">For Your Pet</a>
+                <a href="petprint.html">Pet Print</a>
+                <a href="community.html">Community</a>
+                <a href="monthlyboxdeal.html">Monthly Box Deal</a>
+                <a href="contactus.html">Contact Us</a>
+                <a href="sitemap.html">Site Map</a>
+            </nav>
+        </div>
+
+        <main id="community-main-content">
+
+            <div class="community-content-wrapper">
+                <div class="share-button-container">
+                    <a href="shareyourpet.html" class="share-pet-link">Share Your Pet</a>
+                </div>
+
+                <div class="posts-section">
+                    <div class="member-post">
+                        <div class="member-image">
+                            <img src="#" alt="Member Image" title="This is a picture posted by a community member">
+                        </div>
+                        <div class="member-details">
+                            <p class="member-name">(Name of Member / Customer)</p>
+                            <div class="member-comment">
+                                <p>Their Comments</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="member-post">
+                        <div class="member-image">
+                            <img src="#" alt="Member Image" title="This is a picture posted by a community member">
+                        </div>
+                        <div class="member-details">
+                            <p class="member-name">(Name of Member / Customer)</p>
+                            <div class="member-comment">
+                                <p>Their Comments</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="member-post">
+                        <div class="member-image">
+                            <img src="#" alt="Member Image" title="This is a picture posted by a community member">
+                        </div>
+                        <div class="member-details">
+                            <p class="member-name">(Name of Member / Customer)</p>
+                            <div class="member-comment">
+                                <p>Their Comments</p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="instagram-embed">
+                <iframe 
+                    src="https://www.instagram.com/reel/DICJVWDOkxn/embed/" 
+                    width="420" 
+                    height="480" 
+                    frameborder="0"
+                    scrolling="no"
+                    allowtransparency="true"
+                    title="Instagram reel from nashypaws account">
+                </iframe>
+            </div>
+
+
+
+        </main>
+
+        <script>
+            const ONE_HOUR_MS = 60 * 60 * 1000; 
+
+            function loadAndFilterPosts() {
+                const currentTime = new Date().getTime();
+                
+                let storedPosts = localStorage.getItem('communityPosts');
+                let postsArray = storedPosts ? JSON.parse(storedPosts) : [];
+                
+                const freshPosts = postsArray.filter(post => {
+                    const postAge = currentTime - post.timestamp;
+                    return postAge < ONE_HOUR_MS;
+                });
+
+                if (freshPosts.length !== postsArray.length) {
+                    localStorage.setItem('communityPosts', JSON.stringify(freshPosts));
+                }
+
+                const postsSection = document.querySelector('.posts-section');
+                postsSection.innerHTML = ''; 
+
+                freshPosts.forEach(post => {
+                    
+                    const newPost = document.createElement('div');
+                    newPost.classList.add('member-post'); 
+
+                    const imageContainer = document.createElement('div');
+                    imageContainer.classList.add('member-image');
+                    const imgElement = document.createElement('img');
+                    imgElement.src = post.image; 
+                    imgElement.alt = "User's pet post";
+                    imgElement.title = "User pet post image";
+                    imageContainer.appendChild(imgElement);
+
+                    const detailsContainer = document.createElement('div');
+                    detailsContainer.classList.add('member-details');
+
+                    const nameElement = document.createElement('p');
+                    nameElement.classList.add('member-name');
+                    const nameText = post.name || '(Anonymous Pet Lover)';
+                    nameElement.textContent = "Name: " + nameText; 
+
+                    const commentContainer = document.createElement('div');
+                    commentContainer.classList.add('member-comment');
+                    const commentParagraph = document.createElement('p');
+                    commentParagraph.textContent = post.comment || "No comment provided."; 
+                    commentContainer.appendChild(commentParagraph);
+
+                    detailsContainer.appendChild(nameElement);
+                    detailsContainer.appendChild(commentContainer);
+
+                    newPost.appendChild(imageContainer);
+                    newPost.appendChild(detailsContainer);
+
+                    postsSection.appendChild(newPost);
+                });
+            }
+
+            document.addEventListener('DOMContentLoaded', function() {
+                loadAndFilterPosts();
+
+                setInterval(loadAndFilterPosts, ONE_HOUR_MS); 
+            });
+        </script>
+    </body> 
+</html>

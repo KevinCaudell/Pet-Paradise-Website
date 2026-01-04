@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>For Your Pet Store Page</title>
+    <link rel="icon" type="image/png" href="pictures/favicon.png">
+    <link rel="stylesheet" href="style.css">
+        
+</head>
+    <body>
+        <a href="#for-pet-main-content" class="skip-link">Skip to main content</a>
+
+        <header>
+            <div class="logo">
+                <a href="index.html">
+                    <img src="pictures/logo.png" alt="Pet Paradise Logo" title="This is the Pet Paradise Logo">
+                </a>
+            </div>
+            <div class="title">For Your Pet Store</div>
+            <div class="right-btn">Pet<br>Paradise</div>
+        </header>
+
+        <div class="nav-container">
+        <nav class="nav">
+            <a href="index.html">Home</a>
+            <a href="aboutus.html">About Us</a>
+            <a href="accessories.html">Accessories</a>
+            <a href="foryourpet.html">For Your Pet</a>
+            <a href="petprint.html">Pet Print</a>
+            <a href="community.html">Community</a>
+            <a href="monthlyboxdeal.html">Monthly Box Deal</a>
+            <a href="contactus.html">Contact Us</a>
+            <a href="sitemap.html">Site Map</a>
+        </nav>
+        </div>
+
+        <main id="for-pet-main-content" class="main-content-area">
+
+            <section class="product-section">
+                <div class="section-title-container">
+                    <h2 class="section-title toys-highlight">TOYS</h2>
+                </div>
+                
+                <div class="product-box">
+
+                    <div class="carousel-container" id="toys-carousel">
+
+                        <button class="carousel-arrow left-arrow" aria-label="Previous Image">&lt;</button>
+
+                        <div class="image-wrapper">
+                            <div class="product-image active" data-price="11.00">
+                                <img src="foryourpetpics/tugowartoy.jpg" alt="Rope Toy Product" title="This is a picture of the Rope Toy Product">
+                            </div>
+                            <div class="product-image" data-price="16.00">
+                                <img src="foryourpetpics/dogbonetoy.jpg" alt="Chewing Bones Product" title="This is a picture of the Chew Bone Product">
+                            </div>
+                            <div class="product-image" data-price="8.00">
+                                <img src="foryourpetpics/toyball.jpg" alt="Rubber Toy Ball Product" title="This is a picture of the Toy Ball Product">
+                            </div>
+                            <div class="product-image" data-price="10.00">
+                                <img src="foryourpetpics/stufanimal.jpg" alt="Teddy Bear Stuffed Animal Product" title="This is a picture of the Stuffed Animal Product">
+                            </div>
+                        </div>
+
+                        <button class="carousel-arrow right-arrow" aria-label="Next Image">&gt;</button>
+                    </div>
+                    
+                    <p class="price-display" id="toys-price">$15.99</p>
+
+                    <a href="orderview.html" class="view-order-button-fp" title="View Selected Order">VIEW ORDER</a>
+                </div>
+            </section>
+
+            <section class="product-section">
+                <div class="section-title-container">
+                    <h2 class="section-title toys-highlight">FURNITURE</h2>
+                </div>
+                
+                <div class="product-box">
+
+                    <div class="carousel-container" id="furniture-carousel">
+
+                        <button class="carousel-arrow left-arrow" aria-label="Previous Image">&lt;</button>
+
+                        <div class="image-wrapper">
+                            <div class="product-image active" data-price="18.00">
+                                <img src="foryourpetpics/dogbed.jpg" alt="Dog Bed Product" title="This is a picture of the Dog Bed Product">
+                            </div>
+                            <div class="product-image" data-price="22.00">
+                                <img src="foryourpetpics/petbed.jpg" alt="Animal Bed Product" title="This is a picture of the Animal Bed Product">
+                            </div>
+                            <div class="product-image" data-price="65.00">
+                                <img src="foryourpetpics/catfurniture.jpg" alt="Cat Playhouse Product" title="This is a picture of the Cat Playhouse Product">
+                            </div>
+                            <div class="product-image" data-price="80.00">
+                                <img src="foryourpetpics/doghousefurniture.jpg" alt="Dog House Product" title="This is a picture of the Dog House Product">
+                            </div>
+                        </div>
+
+                        <button class="carousel-arrow right-arrow" aria-label="Next Image">&gt;</button>
+                    </div>
+
+                    <p class="price-display" id="furniture-price">$75.50</p>
+
+                    <a href="orderview.html" class="view-order-button-fp" title="View Selected Order">VIEW ORDER</a>
+                </div>
+            </section>
+        </main>
+
+        <script>
+            document.addEventListener('DOMContentLoaded', () => {
+                
+                function initializePriceAndPath(carouselId) {
+                    const carousel = document.getElementById(carouselId);
+                    if (!carousel) return;
+
+                    const activeImageDiv = carousel.querySelector('.product-image.active');
+                    const priceDisplay = document.getElementById(carouselId.replace('-carousel', '-price'));
+
+                    if (activeImageDiv && priceDisplay) {
+                        const initialPrice = activeImageDiv.getAttribute('data-price');
+                        priceDisplay.textContent = `$${parseFloat(initialPrice).toFixed(2)}`;
+                    }
+                }
+
+                function moveCarousel(carouselId, direction) {
+                    const carousel = document.getElementById(carouselId);
+                    if (!carousel) return;
+
+                    const images = Array.from(carousel.querySelectorAll('.product-image'));
+                    const priceDisplay = document.getElementById(carouselId.replace('-carousel', '-price'));
+
+                    if (images.length === 0) return;
+
+                    const activeIndex = images.findIndex(img => img.classList.contains('active'));
+                    
+                    images[activeIndex].classList.remove('active');
+
+                    let newIndex;
+
+                    if (direction === 'right') {
+                        newIndex = (activeIndex + 1) % images.length;
+                    } else if (direction === 'left') {
+                        newIndex = (activeIndex - 1 + images.length) % images.length;
+                    } else {
+                        newIndex = activeIndex; 
+                    }
+
+                    const newActiveImage = images[newIndex];
+                    newActiveImage.classList.add('active');
+
+                    const newPrice = newActiveImage.getAttribute('data-price');
+                    priceDisplay.textContent = `$${parseFloat(newPrice).toFixed(2)}`;
+                }
+
+                function handleViewOrderClick(event) {
+                    event.preventDefault(); 
+
+                    const productBox = event.target.closest('.product-box');
+                    if (!productBox) return;
+
+                    const activeImageDiv = productBox.querySelector('.product-image.active');
+                    if (!activeImageDiv) return;
+
+                    const imageElement = activeImageDiv.querySelector('img');
+                    const imagePath = imageElement.getAttribute('src');
+                    const itemPrice = activeImageDiv.getAttribute('data-price');
+                    const itemName = imageElement.getAttribute('alt').replace(' Product', '').trim(); 
+
+                    const orderData = {
+                        itemName: itemName,
+                        basePrice: itemPrice, 
+                        finalTotal: itemPrice,
+                        imagePath: imagePath, 
+                        options: []
+                    };
+
+                    localStorage.setItem('simpleOrder', JSON.stringify(orderData));
+                    
+                    window.location.href = event.target.href;
+                }
+
+                document.querySelectorAll('.carousel-arrow').forEach(button => {
+                    button.addEventListener('click', (event) => {
+                        const carouselContainer = event.target.closest('.carousel-container');
+                        if (!carouselContainer) return;
+                        
+                        const carouselId = carouselContainer.id;
+                        let direction = '';
+                        if (button.classList.contains('right-arrow')) {
+                            direction = 'right';
+                        } else if (button.classList.contains('left-arrow')) {
+                            direction = 'left';
+                        }
+
+                        if (direction) {
+                            moveCarousel(carouselId, direction);
+                        }
+                    });
+                });
+                
+                document.querySelectorAll('.view-order-button-fp').forEach(button => {
+                    button.addEventListener('click', handleViewOrderClick);
+                });
+
+                initializePriceAndPath('toys-carousel'); 
+                initializePriceAndPath('furniture-carousel'); 
+            });
+        </script>
+    </body> 
+</html>

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Monthly Box Deal Page</title>
+    <link rel="icon" type="image/png" href="pictures/favicon.png">
+    <link rel="stylesheet" href="style.css">
+        
+</head>
+    <body>
+        <a href="#boxdeal-main-content" class="skip-link">Skip to main content</a>
+
+        <header>
+            <div class="logo">
+                <a href="index.html">
+                    <img src="pictures/logo.png" alt="Pet Paradise Logo" title="This is the Pet Paradise Logo">
+                </a>
+            </div>
+            <div class="title">Monthly Box Deal</div>
+            <div class="right-btn">Pet<br>Paradise</div>
+        </header>
+
+        <div class="nav-container">
+            <nav class="nav">
+                <a href="index.html">Home</a>
+                <a href="aboutus.html">About Us</a>
+                <a href="accessories.html">Accessories</a>
+                <a href="foryourpet.html">For Your Pet</a>
+                <a href="petprint.html">Pet Print</a>
+                <a href="community.html">Community</a>
+                <a href="monthlyboxdeal.html">Monthly Box Deal</a>
+                <a href="contactus.html">Contact Us</a>
+                <a href="sitemap.html">Site Map</a>
+            </nav>
+        </div>
+
+        <main id="boxdeal-main-content">
+            
+            <div class="box-deal-wrapper">
+
+                <h2 class="month-box-title">
+                   December Box
+                </h2>
+
+                <div class="deal-layout-container">
+
+                    <div class="deal-left-column">
+                        
+                        <div class="box-image-container">
+                            <img src="monthlyboxdealpic/monthlybox.jpg" alt="Image of Monthly Box" title="Image of Monthly Box">
+                        </div>
+
+                        <div class="order-section">
+                            <p class="price-text">Price: $85.99</p>
+                            <a href="#" class="order-button">ORDER NOW</a>
+                        </div>
+
+                    </div>
+
+                    <div class="deal-right-column">
+                        
+                        <div class="item-grid">
+                            
+                            <div class="item-box">
+                                <img src="monthlyboxdealpic/collar.jpg" alt="Monthly Box Collar Image" title="Image of Collar Product">
+                            </div>
+                            
+                            <div class="item-box">
+                                <img src="monthlyboxdealpic/pettreats.jpg" alt="Monthly Box Treats Image" title="Image of Pet Treats Product">
+                            </div>
+                            
+                            <div class="item-box">
+                                <img src="monthlyboxdealpic/animaltags.jpg" alt="Monthly Box Name Tag Image" title="Image of Name Tag Product">
+                            </div>
+                            
+                            <div class="item-box">
+                                <img src="monthlyboxdealpic/animalfood.jpg" alt="Monthly Box Food Image" title="Image of Animal Food Product">
+                            </div>     
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+
+        <script>
+            const orderButton = document.querySelector('.order-button');
+            orderButton.addEventListener('click', function(event) {
+                event.preventDefault();                
+                alert("You've successfully ordered the Monthly Box Deal!");
+            });
+        </script>
+    </body> 
+</html>

@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pet Print Store Page</title>
+    <link rel="icon" type="image/png" href="pictures/favicon.png">
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        #petprint-carousel.carousel-container {
+            position: relative;
+        width: 100%;
+        max-width: 400px; 
+        height: 300px;
+        margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow:5px 5px 10px rgba(0,0,0,0.3);
+        }
+
+        .customization-layout .image-column {
+            min-width: 400px; 
+        }
+
+        #petprint-price {
+            margin-bottom: 10px;
+        }
+    </style>
+        
+</head>
+    <body>
+        <a href="#custom-accessories-main-content" class="skip-link">Skip to main content</a>
+
+        <header>
+            <div class="logo">
+                <a href="index.html">
+                    <img src="pictures/logo.png" alt="Pet Paradise Logo" title="This is the Pet Paradise Logo">
+                </a>
+            </div>
+            <div class="title">Pet Print Store</div>
+            <div class="right-btn">Pet<br>Paradise</div>
+        </header>
+
+        <div class="nav-container">
+        <nav class="nav">
+            <a href="index.html">Home</a>
+            <a href="aboutus.html">About Us</a>
+            <a href="accessories.html">Accessories</a>
+            <a href="foryourpet.html">For Your Pet</a>
+            <a href="petprint.html">Pet Print</a>
+            <a href="community.html">Community</a>
+            <a href="monthlyboxdeal.html">Monthly Box Deal</a>
+            <a href="contactus.html">Contact Us</a>
+            <a href="sitemap.html">Site Map</a>
+        </nav>
+        </div>
+
+        <main id="custom-accessories-main-content">
+            
+            <div class="customize-wrapper">
+
+                <div class="item-name-container">
+                    <h3 class="item-name">&lt;Name of Item&gt;</h3>
+                </div>
+
+                <div class="customization-layout">
+
+                    <div class="image-column">
+                        <div class="carousel-container" id="petprint-carousel">
+                            <button class="carousel-arrow left-arrow" aria-label="Previous Image">&lt;</button>
+
+                            <div class="image-wrapper">
+                                </div>
+
+                            <button class="carousel-arrow right-arrow" aria-label="Next Image">&gt;</button>
+                        </div>
+                        
+                        <p class="price-display" id="petprint-price">$25.00</p>
+                    </div>
+                    <div class="options-column">
+                        
+                        <div class="option-row">
+                            <label for="color-select" class="option-label">COLOR:</label>
+                            <select id="color-select" class="customize-select">
+                                <option value="0.00" data-price="0.00">-- Choose Color --</option>
+                                <option value="0.00" data-price="0.00">Blue</option>
+                                <option value="0.00" data-price="0.00">Red</option>
+                                <option value="0.00" data-price="0.00">Purple</option>
+                                <option value="0.00" data-price="0.00">Green</option>
+                                <option value="0.00" data-price="0.00">Pink</option>
+                                <option value="0.00" data-price="0.00">Yellow</option>
+                                <option value="2.00" data-price="2.00">Rainbow (+2.00)</option>
+                            </select>
+                            <p class="option-price" id="color-price">$ 0.00</p>
+                        </div>
+
+                        <div class="option-row">
+                            <label for="size-select" class="option-label">SIZE:</label>
+                            <select id="size-select" class="customize-select">
+                                <option value="0.00" data-price="0.00">-- Choose Size --</option>
+                                <option value="0.00" data-price="0.00">Extra Small</option>
+                                <option value="0.00" data-price="0.00">Small</option>
+                                <option value="0.00" data-price="0.00">Medium</option>
+                                <option value="0.50" data-price="0.50">Large (+0.50)</option>
+                                <option value="1.00" data-price="1.00">Extra Large (+1.00)</option>
+                            </select>
+                            <p class="option-price" id="size-price">$ 0.00</p>
+                        </div>
+
+                        <div class="order-summary-section">
+                            <div class="total-price-row">
+                                <p class="total-price-box-ca">Total Price: <span id="final-total">$ 0.00</span></p>
+                            </div>
+                            </div>
+
+                        <div class="order-summary-section">
+                            <a href="orderview.html" class="view-order-button-ca">VIEW ORDER</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+
+        <script>
+            const colorSelect = document.getElementById('color-select');
+            const sizeSelect = document.getElementById('size-select');
+            
+            const colorPriceDisplay = document.getElementById('color-price');
+            const sizePriceDisplay = document.getElementById('size-price');
+            const finalTotalDisplay = document.getElementById('final-total');
+            const viewOrderButton = document.querySelector('.view-order-button-ca');
+            const priceDisplay = document.getElementById('petprint-price'); 
+            const itemNameDisplay = document.querySelector('.item-name');
+            const carouselContainer = document.getElementById('petprint-carousel');
+
+            let BASE_PRICE = 0; 
+            let CURRENT_ITEM_NAME = '';
+            let ACTIVE_IMAGE_PATH = ''; 
+
+            function calculateTotal() {
+                const colorPrice = parseFloat(colorSelect.options[colorSelect.selectedIndex].getAttribute('data-price')) || 0.00;
+                const sizePrice = parseFloat(sizeSelect.options[sizeSelect.selectedIndex].getAttribute('data-price')) || 0.00;
+
+                colorPriceDisplay.textContent = `$${colorPrice.toFixed(2)}`;
+                sizePriceDisplay.textContent = `$${sizePrice.toFixed(2)}`;
+
+                const total = BASE_PRICE + colorPrice + sizePrice; 
+                finalTotalDisplay.textContent = `$${total.toFixed(2)}`;
+            }
+
+            colorSelect.addEventListener('change', calculateTotal);
+            sizeSelect.addEventListener('change', calculateTotal);
+            
+
+            function getUrlParameter(name) {
+                const params = new URLSearchParams(window.location.search);
+                return params.get(name);
+            }
+            
+            function updateSubheader(itemTitle) {
+                if (itemTitle && itemNameDisplay) {
+                    itemNameDisplay.textContent = itemTitle;
+                    CURRENT_ITEM_NAME = itemTitle;
+                } else if (itemNameDisplay) {
+                    itemNameDisplay.textContent = "Pet Print Customization";
+                    CURRENT_ITEM_NAME = "Custom Pet Print";
+                }
+            }
+
+            function populateCarouselFromUrl() {
+                const imagesString = getUrlParameter('images');
+                const pricesString = getUrlParameter('prices'); 
+                const carouselWrapper = document.querySelector('#petprint-carousel .image-wrapper');
+                
+                if (!imagesString || !carouselWrapper) return;
+                
+                const imagePaths = imagesString.split(',');
+                const imagePrices = pricesString ? pricesString.split(',') : []; 
+                const DEFAULT_BASE_PRICE = '25.00';
+                
+                carouselWrapper.innerHTML = ''; 
+
+                imagePaths.forEach((path, index) => {
+                    const imageDiv = document.createElement('div');
+                    imageDiv.classList.add('product-image');
+                    
+                    const currentImagePrice = imagePrices[index] || DEFAULT_BASE_PRICE; 
+                    
+                    if (index === 0) {
+                        imageDiv.classList.add('active'); 
+                        ACTIVE_IMAGE_PATH = path.trim(); 
+                    }
+                    
+                    imageDiv.setAttribute('data-price', currentImagePrice); 
+                    imageDiv.setAttribute('data-path', path.trim());
+
+                    const imgElement = document.createElement('img');
+                    imgElement.src = path.trim(); 
+                    imgElement.alt = `Product View ${index + 1}`;
+
+                    imageDiv.appendChild(imgElement);
+                    carouselWrapper.appendChild(imageDiv);
+                });
+                
+                const initialActiveImage = document.querySelector('.product-image.active');
+                if (initialActiveImage) {
+                    const initialPrice = initialActiveImage.getAttribute('data-price');
+                    BASE_PRICE = parseFloat(initialPrice);
+                    priceDisplay.textContent = `$${BASE_PRICE.toFixed(2)}`;
+                }
+            }
+
+            function moveCarousel(direction) {
+                if (!carouselContainer) return;
+
+                const images = Array.from(carouselContainer.querySelectorAll('.product-image'));
+                if (images.length === 0) return;
+
+                const activeIndex = images.findIndex(img => img.classList.contains('active'));
+                if (activeIndex < 0) return;
+
+                images[activeIndex].classList.remove('active');
+
+                let newIndex;
+                if (direction === 'right') {
+                    newIndex = (activeIndex + 1) % images.length;
+                } else if (direction === 'left') {
+                    newIndex = (activeIndex - 1 + images.length) % images.length;
+                } else {
+                    return;
+                }
+
+                const newActiveImage = images[newIndex];
+                newActiveImage.classList.add('active');
+
+                const newPrice = newActiveImage.getAttribute('data-price');
+                ACTIVE_IMAGE_PATH = newActiveImage.getAttribute('data-path');
+                
+                BASE_PRICE = parseFloat(newPrice);
+                priceDisplay.textContent = `$${BASE_PRICE.toFixed(2)}`;
+                
+                calculateTotal();
+            }
+            
+            function validateAndSaveOrder(event) {
+                event.preventDefault(); 
+                
+                const colorText = colorSelect.options[colorSelect.selectedIndex].text;
+                const sizeText = sizeSelect.options[sizeSelect.selectedIndex].text;
+
+                if (colorSelect.selectedIndex === 0 || sizeSelect.selectedIndex === 0) {
+                    alert("Please select a Color and Size before viewing your order.");
+                    return; 
+                }
+
+                const cleanOptionValue = (text) => text.replace(/\s*\([\+\-]?[\d\.]+\)$/, '').trim();
+
+                const orderData = {
+                    itemName: CURRENT_ITEM_NAME,
+                    basePrice: BASE_PRICE.toFixed(2),
+                    finalTotal: parseFloat(finalTotalDisplay.textContent.replace('$', '')).toFixed(2),
+                    imagePath: ACTIVE_IMAGE_PATH,
+                    options: [
+                        {
+                            label: 'Color',
+                            value: cleanOptionValue(colorText),
+                            price: parseFloat(colorSelect.options[colorSelect.selectedIndex].getAttribute('data-price')).toFixed(2)
+                        },
+                        {
+                            label: 'Size',
+                            value: cleanOptionValue(sizeText),
+                            price: parseFloat(sizeSelect.options[sizeSelect.selectedIndex].getAttribute('data-price')).toFixed(2)
+                        }
+                    ]
+                };
+
+                localStorage.setItem('petprintOrder', JSON.stringify(orderData));
+                
+                window.location.href = viewOrderButton.href;
+            }
+
+            document.addEventListener('DOMContentLoaded', () => {
+                const itemParam = getUrlParameter('item');
+                updateSubheader(itemParam);
+                populateCarouselFromUrl(); 
+                calculateTotal(); 
+
+                document.querySelectorAll('.carousel-arrow').forEach(button => {
+                    button.addEventListener('click', (event) => {
+                        const direction = button.classList.contains('right-arrow') ? 'right' : 'left';
+                        moveCarousel(direction);
+                    });
+                });
+                
+                viewOrderButton.addEventListener('click', validateAndSaveOrder);
+            });
+        </script>
+
+    </body> 
+</html>

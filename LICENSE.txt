@@ -1,0 +1,23 @@
+Copyright © 2026 Kevin Caudell. All rights reserved.
+
+This source code and associated project structure are the intellectual property of the author.
+This code is provided for portfolio viewing purposes only and may not be copied, modified,
+distributed, merged, sublicensed, or used in other projects without explicit written permission
+from the owner.
+
+---
+
+### Third-Party Assets Notice
+
+This project contains images and media sourced from Freepik.com under Freepik’s free usage license.
+These assets are **not owned** by the repository author and are subject to Freepik’s original licensing terms.
+
+Attribution where required:
+Image credits → Freepik.com (Designed by Freepik)
+
+Freepik assets may not be redistributed outside the context of this portfolio project except under
+Freepik’s original license.
+
+---
+
+**This repository is for portfolio demonstration only.**

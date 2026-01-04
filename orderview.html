@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Order View Page</title>
+    <link rel="icon" type="image/png" href="pictures/favicon.png">
+    <link rel="stylesheet" href="style.css">
+        
+</head>
+    <body>
+        <a href="#order-view-main-content" class="skip-link">Skip to main content</a>
+
+        <header>
+            <div class="logo">
+                <a href="index.html">
+                    <img src="pictures/logo.png" alt="Pet Paradise Logo" title="This is the Pet Paradise Logo">
+                </a>
+            </div>
+            <div class="title">Order View</div>
+            <div class="right-btn">Pet<br>Paradise</div>
+        </header>
+
+        <div class="nav-container">
+        <nav class="nav">
+            <a href="index.html">Home</a>
+            <a href="aboutus.html">About Us</a>
+            <a href="accessories.html">Accessories</a>
+            <a href="foryourpet.html">For Your Pet</a>
+            <a href="petprint.html">Pet Print</a>
+            <a href="community.html">Community</a>
+            <a href="monthlyboxdeal.html">Monthly Box Deal</a>
+            <a href="contactus.html">Contact Us</a>
+            <a href="sitemap.html">Site Map</a>
+        </nav>
+        </div>
+
+        <main id="order-view-main-content">
+            <div class="order-view-container">
+                <h1 class="item-name">&lt;Name of Item&gt;</h1>
+
+                <div class="order-content">
+                    <div class="item-image-container">
+                        <img src="#" alt="Product Chosen To Buy" title="Product to be Ordered">
+                    </div>
+
+                    <div class="item-details">
+                        <div class="detail-row">
+                            <span class="detail-label">COLOR: &lt;choice&gt;</span>
+                            <span class="detail-price">$ price</span>
+                        </div>
+
+                        <div class="detail-row">
+                            <span class="detail-label">SIZE: &lt;choice&gt;</span>
+                            <span class="detail-price">$ price</span>
+                        </div>
+
+                        <div class="detail-row">
+                            <span class="detail-label">MATERIAL: &lt;choice&gt;</span>
+                            <span class="detail-price">$ price</span>
+                        </div>
+
+                        <div class="total-price-container">
+                            <span class="total-price-label">Total price</span>
+                        </div>
+
+                        <button class="order-now-button">ORDER NOW</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+
+                const ACCESSORY_PRICE_MAP = {
+                    BASE: 0.00, 
+                    COLOR: {
+                        'default': 0.00, '-- Choose Color': 0.00,
+                        'Blue': 5.00, 'Red': 5.00, 'Purple': 5.00, 'Green': 5.00,
+                        'Pink': 5.00, 'Yellow': 5.00, 'Rainbow': 7.00, 
+                        'Silver Brush': 10.00, 'Gold Brush': 10.00, 'Platinum Brush': 12.00
+                    },
+                    SIZE: {
+                        'default': 0.00, '-- Choose Size': 0.00,
+                        'Extra Small': 4.50, 'Small': 5.00, 'Medium': 7.50,
+                        'Large': 10.00, 'Extra Large': 12.50
+                    },
+                    MATERIAL: {
+                        'default': 0.00, '-- Choose Material': 0.00,
+                        'Nylon': 5.00, 'Biothane': 10.00, 'Leather': 15.00
+                    }
+                };
+
+                function getUrlParameter(name) {
+                    const urlParams = new URLSearchParams(window.location.search);
+                    return urlParams.get(name) || ''; 
+                }
+
+                function loadOrderData() {
+                    const simpleData = localStorage.getItem('simpleOrder');
+                    
+                    if (simpleData) {
+                        localStorage.removeItem('simpleOrder');
+                        const data = JSON.parse(simpleData);
+                        
+                        const details = [
+                            { 
+                                label: data.itemName, 
+                                value: 'Price', 
+                                price: parseFloat(data.basePrice) 
+                            }
+                        ];
+
+                        return {
+                            source: 'simple',
+                            itemName: data.itemName,
+                            imagePath: data.imagePath,
+                            total: parseFloat(data.finalTotal),
+                            details: details 
+                        };
+                    }
+
+                    const petPrintData = localStorage.getItem('petprintOrder');
+                    
+                    if (petPrintData) {
+                        localStorage.removeItem('petprintOrder');
+                        const data = JSON.parse(petPrintData);
+                        
+                        const details = [];
+                        
+                        details.push({ 
+                            label: data.itemName, 
+                            value: 'Base Price', 
+                            price: parseFloat(data.basePrice) 
+                        });
+
+                        data.options.forEach(opt => {
+                            details.push({
+                                label: opt.label,
+                                value: opt.value,
+                                price: parseFloat(opt.price)
+                            });
+                        });
+                        
+                        return {
+                            source: 'petprint',
+                            itemName: data.itemName,
+                            imagePath: data.imagePath,
+                            total: parseFloat(data.finalTotal),
+                            details: details 
+                        };
+                    }
+
+                    const chosenColor = getUrlParameter('color');
+                    const chosenSize = getUrlParameter('size');
+                    const chosenMaterial = getUrlParameter('material');
+                    const itemName = getUrlParameter('item');
+                    const imagePath = getUrlParameter('image');
+
+                    if (chosenColor || chosenSize || chosenMaterial || itemName) {
+                        const colorPrice = ACCESSORY_PRICE_MAP.COLOR[chosenColor] || 0.00;
+                        const sizePrice = ACCESSORY_PRICE_MAP.SIZE[chosenSize] || 0.00;
+                        const materialPrice = ACCESSORY_PRICE_MAP.MATERIAL[chosenMaterial] || 0.00;
+                        const total = ACCESSORY_PRICE_MAP.BASE + colorPrice + sizePrice + materialPrice;
+
+                        const details = [
+                            { label: 'Color', value: chosenColor, price: colorPrice },
+                            { label: 'Size', value: chosenSize, price: sizePrice },
+                            { label: 'Material', value: chosenMaterial, price: materialPrice }
+                        ];
+
+                        return {
+                            source: 'accessory',
+                            itemName: itemName,
+                            imagePath: imagePath,
+                            total: total,
+                            details: details
+                        };
+                    }
+                    
+                    return null;
+                }
+
+                function updateOrderDisplay(data) {
+                    if (!data) return; 
+
+                    const itemDetailsContainer = document.querySelector('.item-details');
+                    const itemNameHeader = document.querySelector('.item-name');
+                    const itemImage = document.querySelector('.item-image-container img');
+                    
+                    if (itemNameHeader) itemNameHeader.textContent = data.itemName || "Item";
+                    if (itemImage) {
+
+                        if (data.imagePath.includes('/')) {
+                            itemImage.src = data.imagePath;
+                        } else {
+                            itemImage.src = data.imagePath || 'pictures/default_product.jpg';
+                        }
+                        itemImage.alt = `Image of ${data.itemName || 'Product'}`;
+                    }
+                    
+                    let detailRowsHTML = '';
+                    let finalOrderDetails = [];
+                    
+                    data.details.forEach(detail => {
+                        const displayLabel = detail.label.toUpperCase();
+                        const displayValue = (detail.value === 'default' || detail.value.startsWith('-- Choose') ? 'DEFAULT' : detail.value).toUpperCase();
+                        const displayPrice = detail.price.toFixed(2);
+                        
+                        detailRowsHTML += `
+                            <div class="detail-row">
+                                <span class="detail-label"><strong>${displayLabel}:</strong> ${displayValue}</span>
+                                <span class="detail-price">$ ${displayPrice}</span>
+                            </div>
+                        `;
+                        
+                        finalOrderDetails.push(`${displayLabel}: ${displayValue}`);
+                    });
+                    
+                    const finalTotalFormatted = `$ ${data.total.toFixed(2)}`;
+                    const totalHTML = `
+                        <div class="total-price-container">
+                            <span class="total-price-label">Total price: <strong>${finalTotalFormatted}</strong></span>
+                        </div>
+                    `;
+
+
+                    itemDetailsContainer.innerHTML = '';
+                    
+                    itemDetailsContainer.insertAdjacentHTML('beforeend', detailRowsHTML);
+
+                    itemDetailsContainer.insertAdjacentHTML('beforeend', totalHTML);
+                    
+                    itemDetailsContainer.insertAdjacentHTML('beforeend', '<button class="order-now-button">ORDER NOW</button>');
+
+                    return {
+                        itemName: data.itemName || "Item",
+                        finalTotal: finalTotalFormatted,
+                        detailsArray: finalOrderDetails 
+                    };
+                }
+                
+
+                function attachOrderConfirmation(details) {
+                    const orderNowButton = document.querySelector('.order-now-button');
+                    
+                    if (orderNowButton && details) {
+                        orderNowButton.addEventListener('click', function(event) {
+                            event.preventDefault(); 
+                            
+                            const detailsString = details.detailsArray.join('\n'); 
+
+                            const message = `
+                                ✅ Thank you for your order! 🥳
+
+                                You have successfully ordered the ${details.itemName}.
+
+                                --- Details ---
+                                ${detailsString}
+
+                                Total Cost: ${details.finalTotal}
+                                
+                                You will receive an email confirmation shortly.
+                            `;
+
+                            alert(message);
+                        });
+                    }
+                }
+                
+                
+                const orderData = loadOrderData();
+                const alertDetails = updateOrderDisplay(orderData);
+                attachOrderConfirmation(alertDetails);
+            });
+        </script>
+    </body> 
+</html>

@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Customize Accessories Page</title>
+    <link rel="icon" type="image/png" href="pictures/favicon.png">
+    <link rel="stylesheet" href="style.css">
+        
+</head>
+    <body>
+        <a href="#custom-accessories-main-content" class="skip-link">Skip to main content</a>
+
+        <header>
+            <div class="logo">
+                <a href="index.html">
+                    <img src="pictures/logo.png" alt="Pet Paradise Logo" title="This is the Pet Paradise Logo">
+                </a>
+            </div>
+            <div class="title">Customize Accessories</div>
+            <div class="right-btn">Pet<br>Paradise</div>
+        </header>
+
+        <div class="nav-container">
+        <nav class="nav">
+            <a href="index.html">Home</a>
+            <a href="aboutus.html">About Us</a>
+            <a href="accessories.html">Accessories</a>
+            <a href="foryourpet.html">For Your Pet</a>
+            <a href="petprint.html">Pet Print</a>
+            <a href="community.html">Community</a>
+            <a href="monthlyboxdeal.html">Monthly Box Deal</a>
+            <a href="contactus.html">Contact Us</a>
+            <a href="sitemap.html">Site Map</a>
+        </nav>
+        </div>
+
+        <main id="custom-accessories-main-content">
+            
+            <div class="customize-wrapper">
+
+                <div class="item-name-container">
+                    <h3 class="item-name">&lt;Name of Item&gt;</h3>
+                </div>
+
+                <div class="customization-layout">
+
+                    <div class="image-column">
+                        <div class="accessory-image-container">
+                            <img id="accessory-display-image" src="" alt="Image of Accessory" title="This is a picture of the chosen Product">
+                        </div>
+                    </div>
+
+                    <div class="options-column">
+                        
+                        <div class="option-row">
+                            <label for="color-select" class="option-label">COLOR:</label>
+                            <select id="color-select" class="customize-select">
+                                <option value="0.00" data-price="0.00">-- Choose Color --</option>
+                                <option value="5.00" data-price="5.00">Blue (+5.00)</option>
+                                <option value="5.00" data-price="5.00">Red (+5.00)</option>
+                                <option value="5.00" data-price="5.00">Purple (+5.00)</option>
+                                <option value="5.00" data-price="5.00">Green (+5.00)</option>
+                                <option value="5.00" data-price="5.00">Pink (+5.00)</option>
+                                <option value="5.00" data-price="5.00">Yellow (+5.00)</option>
+                                <option value="7.00" data-price="7.00">Rainbow (+7.00)</option>
+                                <option value="10.00" data-price="10.00">Silver Brush (+10.00)</option>
+                                <option value="10.00" data-price="10.00">Gold Brush (+10.00)</option>
+                                <option value="12.00" data-price="12.00">Platinum Brush (+12.00)</option>
+                            </select>
+                            <p class="option-price" id="color-price">$ 0.00</p>
+                        </div>
+
+                        <div class="option-row">
+                            <label for="size-select" class="option-label">SIZE:</label>
+                            <select id="size-select" class="customize-select">
+                                <option value="0.00" data-price="0.00">-- Choose Size --</option>
+                                <option value="4.50" data-price="4.50">Extra Small (+4.50)</option>
+                                <option value="5.00" data-price="5.00">Small (+5.00)</option>
+                                <option value="7.50" data-price="7.50">Medium (+7.50)</option>
+                                <option value="10.00" data-price="10.00">Large (+10.00)</option>
+                                <option value="12.50" data-price="12.50">Extra Large (+12.50)</option>
+                            </select>
+                            <p class="option-price" id="size-price">$ 0.00</p>
+                        </div>
+
+                        <div class="option-row">
+                            <label for="material-select" class="option-label">MATERIAL:</label>
+                            <select id="material-select" class="customize-select">
+                                <option value="0.00" data-price="0.00">-- Choose Material --</option>
+                                <option value="5.00" data-price="5.00">Nylon (+5.00)</option>
+                                <option value="10.00" data-price="10.00">Biothane (+10.00)</option>
+                                <option value="15.00" data-price="15.00">Leather (+15.00)</option>
+                            </select>
+                            <p class="option-price" id="material-price">$ 0.00</p>
+                        </div>
+
+                        <div class="order-summary-section">
+                            <div class="total-price-row">
+                                <p class="total-price-box-ca">Total Price: <span id="final-total">$ 0.00</span></p>
+                            </div>
+                            </div>
+
+                        <div class="order-summary-section">
+                            <a href="orderview.html" class="view-order-button-ca" title="View Your Selected Order">VIEW ORDER</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {              
+                const colorSelect = document.getElementById('color-select');
+                const sizeSelect = document.getElementById('size-select');
+                const materialSelect = document.getElementById('material-select');
+                const viewOrderButton = document.querySelector('.view-order-button-ca'); 
+                
+                const colorPriceDisplay = document.getElementById('color-price');
+                const sizePriceDisplay = document.getElementById('size-price');
+                const materialPriceDisplay = document.getElementById('material-price');
+                const finalTotalDisplay = document.getElementById('final-total');
+                const titleElement = document.querySelector('.item-name');
+                const imageElement = document.getElementById('accessory-display-image');
+                
+                const BASE_PRICE = 0.00; 
+
+                function getUrlParameter(name) {
+                    const urlParams = new URLSearchParams(window.location.search);
+                    return urlParams.get(name) || ''; 
+                }
+
+                function updateOrderLink() {
+                    const getColorValue = colorSelect.options[colorSelect.selectedIndex].text.split('(')[0].trim();
+                    const getSizeValue = sizeSelect.options[sizeSelect.selectedIndex].text.split('(')[0].trim();
+                    const getMaterialValue = materialSelect.options[materialSelect.selectedIndex].text.split('(')[0].trim();
+
+                    const colorParam = getColorValue.includes('-- Choose') ? 'default' : getColorValue;
+                    const sizeParam = getSizeValue.includes('-- Choose') ? 'default' : getSizeValue;
+                    const materialParam = getMaterialValue.includes('-- Choose') ? 'default' : getMaterialValue;
+
+                    const itemName = getUrlParameter('item'); 
+                    const imageUrl = getUrlParameter('image'); 
+
+                    const params = new URLSearchParams();
+                    params.append('color', colorParam);
+                    params.append('size', sizeParam);
+                    params.append('material', materialParam);
+                    
+                    if (itemName) { params.append('item', itemName); }
+                    if (imageUrl) { params.append('image', imageUrl); }
+
+                    if (viewOrderButton) {
+                        viewOrderButton.href = `orderview.html?${params.toString()}`;
+                    }
+                }
+                
+                function getSelectedPrice(selectElement, priceDisplayElement) {
+                    const selectedOption = selectElement.options[selectElement.selectedIndex];
+                    const price = parseFloat(selectedOption.getAttribute('data-price')) || 0.00;
+                    
+                    priceDisplayElement.textContent = `$ ${price.toFixed(2)}`;
+                    return price;
+                }
+
+                function calculateTotalAndLink() {
+                    const colorPrice = getSelectedPrice(colorSelect, colorPriceDisplay);
+                    const sizePrice = getSelectedPrice(sizeSelect, sizePriceDisplay);
+                    const materialPrice = getSelectedPrice(materialSelect, materialPriceDisplay);
+
+                    const total = BASE_PRICE + colorPrice + sizePrice + materialPrice;
+                    finalTotalDisplay.textContent = `$ ${total.toFixed(2)}`;
+                    
+                    updateOrderLink();
+                }
+
+                function setItemDetails() {
+                    const itemName = getUrlParameter('item');
+                    
+                    if (titleElement) {
+                        titleElement.textContent = itemName || "Accessory Customization";
+                    }
+
+                    const imageUrl = getUrlParameter('image');
+                    if (imageElement) {
+                        if (imageUrl) {
+                            imageElement.src = imageUrl;
+                            imageElement.alt = `Image of ${itemName || 'Custom Accessory'}`;
+                        } else {
+                            imageElement.src = 'images/default_accessory.jpg'; 
+                            imageElement.alt = 'Default Accessory Image';
+                        }
+                    }
+                }
+
+                colorSelect.addEventListener('change', calculateTotalAndLink);
+                sizeSelect.addEventListener('change', calculateTotalAndLink);
+                materialSelect.addEventListener('change', calculateTotalAndLink);
+
+                setItemDetails(); 
+                calculateTotalAndLink(); 
+            });
+        </script>
+    </body> 
+</html>

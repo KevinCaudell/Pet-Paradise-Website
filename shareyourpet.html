@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Share Your Pet Page</title>
+    <link rel="icon" type="image/png" href="pictures/favicon.png">
+    <link rel="stylesheet" href="style.css">
+        
+</head>
+    <body>
+        <a href="#shareyourpet-main-content" class="skip-link">Skip to main content</a>
+
+        <header>
+            <div class="logo">
+                <a href="index.html">
+                    <img src="pictures/logo.png" alt="Pet Paradise Logo" title="This is the Pet Paradise Logo">
+                </a>
+            </div>
+            <div class="title">Share Your pet</div>
+            <div class="right-btn">Pet<br>Paradise</div>
+        </header>
+
+        <div class="nav-container">
+        <nav class="nav">
+            <a href="index.html">Home</a>
+            <a href="aboutus.html">About Us</a>
+            <a href="accessories.html">Accessories</a>
+            <a href="foryourpet.html">For Your Pet</a>
+            <a href="petprint.html">Pet Print</a>
+            <a href="community.html">Community</a>
+            <a href="monthlyboxdeal.html">Monthly Box Deal</a>
+            <a href="contactus.html">Contact Us</a>
+            <a href="sitemap.html">Site Map</a>
+        </nav>
+        </div>
+
+        <main id="shareyourpet-main-content">
+            <div class="upload-comment-section">
+                <div class="upload-section">
+                    <h3 class="subheader">Add Image</h3>
+                    <label for="imageUpload" class="upload-box">
+                        <img id="uploadedImage" src="#" alt="Uploaded Pet Image" title="Member Image Upload Placeholder">
+                        <span id="uploadText">Click Me To<br>Upload Image</span>
+                        <input type="file" id="imageUpload" accept="image/*">
+                    </label>
+                </div>
+
+                <div class="comment-section">
+                    <div class="name-input-container">
+                        <h3 class="subheader">Your Name</h3>
+                        <input type="text" id="memberName" class="name-box" placeholder="Enter your name">
+                    </div>
+                    <h3 class="subheader">Comment</h3>
+                    <textarea class="comment-box" placeholder="Add Comments Here"></textarea>
+
+                    <div class="post-button-container">
+                        <button class="post-button" onclick="postContent()">Post</button>
+                    </div>
+                </div>
+            </div>
+
+        <script>
+            document.getElementById('imageUpload').addEventListener('change', function(event) {
+                const file = event.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        const uploadedImage = document.getElementById('uploadedImage');
+                        const uploadText = document.getElementById('uploadText');
+                        uploadedImage.src = e.target.result;
+                        uploadedImage.style.display = 'block';
+                        uploadText.style.display = 'none';
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+
+            function postContent() {
+                const memberName = document.getElementById('memberName').value;
+                const uploadedImage = document.getElementById('uploadedImage').src;
+                const comment = document.querySelector('.comment-box').value;
+
+                if (!memberName.trim()) {
+                    alert('Please enter your name before posting!');
+                    return;
+                }
+                
+                if (uploadedImage && uploadedImage !== window.location.href + '#') { 
+                    
+                    const newPost = {
+                        name: memberName,
+                        image: uploadedImage,
+                        comment: comment,
+                        timestamp: new Date().getTime() 
+                    };
+
+                    let existingPosts = localStorage.getItem('communityPosts');
+                    existingPosts = existingPosts ? JSON.parse(existingPosts) : [];
+                    
+                    existingPosts.unshift(newPost); 
+
+                    localStorage.setItem('communityPosts', JSON.stringify(existingPosts));
+
+                    window.location.href = 'community.html'; 
+                } else {
+                    alert('Please upload an image before posting!');
+                }
+            }
+        </script>
+
+        </main>
+
+    </body> 
+</html>

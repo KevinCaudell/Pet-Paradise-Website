@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pet Paradise Homepage</title>
+  <link rel="icon" type="image/png" href="pictures/favicon.png">
+  <link rel="stylesheet" href="indexstyle.css">
+</head>
+
+<body>
+<a href="#main-content" class="skip-link">Skip to main content</a>
+
+<header class="header">
+    <div class="logo">
+        <a href="index.html">
+            <img src="pictures/logo.png" alt="Pet Paradise Logo" title="This is the Pet Paradise Logo">
+        </a>
+    </div>
+
+    <h1 class="site-title">Pet Paradise</h1>
+
+    <div class="right-btn">
+        Pet<br>Paradise
+    </div>
+
+    <button class="hamburger" aria-label="Open menu" title="Open navigation menu">
+        <span></span>
+        <span></span>
+        <span></span>
+    </button>
+</header>
+
+
+<div class="page-layout">
+    <div class="nav-container">
+        <nav class="nav">
+            <a href="index.html">Home</a>
+            <a href="aboutus.html">About Us</a>
+            <a href="accessories.html">Accessories</a>
+            <a href="foryourpet.html">For Your Pet</a>
+            <a href="petprint.html">Pet Print</a>
+            <a href="community.html">Community</a>
+            <a href="monthlyboxdeal.html">Monthly Box Deal</a>
+            <a href="contactus.html">Contact Us</a>
+            <a href="sitemap.html">Site Map</a>
+        </nav>
+    </div>
+
+
+    <main id="main-content">
+        <div class ="outer-box"> 
+            <div class="middle-box">  
+                <div class="welcome-text"> 
+                    <p>Welcome to Pet Paradise, where we make your pet feel special!</p>
+                </div>
+                    <div class="inner-box"> 
+                        <div class="animation-box">
+                            <div id="animation_container">
+                                <canvas id="canvas" width="800" height="600" title="Pet Paradise animated commercial" style="position:absolute; display:block; background-color: rgba(102, 204, 255, 1.0);"></canvas>
+                                <div id="dom_overlay_container" ></div>
+                            </div>
+                        </div>
+                    </div> 
+                <div class="disclaimer-copyright-container">
+                    <div class="disclaimer">
+                        <a href="disclaimer/disclaimer_statement.pdf">Disclaimer Statement PDF</a>
+                    </div>
+                </div>
+            </div>
+        </div> 
+    </main>
+</div>
+
+
+
+
+<script src="https://code.createjs.com/1.0.0/createjs.min.js"></script>
+
+<script src="AnimationCommercial.js"></script>
+
+
+<script>
+var canvas, stage, exportRoot, anim_container, dom_overlay_container, fnStartAnimation;
+
+function init() {
+    canvas = document.getElementById("canvas");
+    anim_container = document.getElementById("animation_container");
+    dom_overlay_container = document.getElementById("dom_overlay_container");
+
+    var comp = AdobeAn.getComposition("1AE3DF3ABA9DE5489ED0A7B1AE8A1FB4");
+    var lib = comp.getLibrary();
+    var loader = new createjs.LoadQueue(false);
+
+    loader.addEventListener("fileload", function(evt){ handleFileLoad(evt, comp) });
+    loader.addEventListener("complete", function(evt){ handleComplete(evt, comp) });
+
+    loader.loadManifest(lib.properties.manifest);
+}
+
+function handleFileLoad(evt, comp) {
+    var images = comp.getImages();
+    if (evt && evt.item.type === "image") {
+        images[evt.item.id] = evt.result;
+    }
+}
+
+function handleComplete(evt, comp) {
+    var lib = comp.getLibrary();
+    var ss = comp.getSpriteSheet();
+    var queue = evt.target;
+    var ssMetadata = lib.ssMetadata;
+
+    for (let i = 0; i < ssMetadata.length; i++) {
+        ss[ssMetadata[i].name] = new createjs.SpriteSheet({
+            images:[queue.getResult(ssMetadata[i].name)],
+            frames: ssMetadata[i].frames
+        });
+    }
+
+    exportRoot = new lib.AnimationComplete();
+    stage = new lib.Stage(canvas);
+    exportRoot.addEventListener("tick", AdobeAn.handleFilterCache);
+    stage.enableMouseOver();
+
+    fnStartAnimation = function () {
+        stage.addChild(exportRoot);
+        createjs.Ticker.framerate = lib.properties.fps;
+        createjs.Ticker.addEventListener("tick", stage);
+    };
+
+
+    AdobeAn.compositionLoaded(lib.properties.id);
+    fnStartAnimation();
+}
+
+window.addEventListener('load', init);
+</script>
+
+<script>
+const hamburger = document.querySelector(".hamburger");
+const nav = document.querySelector(".nav");
+
+hamburger.addEventListener("click", () => {
+    nav.classList.toggle("open");
+});
+</script>
+
+</body>
+</html>
